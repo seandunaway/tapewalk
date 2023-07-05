@@ -16,23 +16,37 @@ body {
 h1 {
     font-size: 10em;
 }
+p {
+    color: gray;
+    font-size: 0.5em;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 1em 2em;
+}
 </style>
 </head>
 <h1></h1>
+<p></p>
 <script type="module">
 
-let price = 3900
-let delay = 250
-
 let h1 = document.querySelector('h1')
+let p = document.querySelector('p')
 
 while (true) {
+    let price = Number(localStorage.tapewalk_price) || 3900
+    let count = Number(localStorage.tapewalk_count) || 0
+
     let the_fate_of_the_future = coinflip()
     price += the_fate_of_the_future ? 0.25 : -0.25
+    count++
 
     h1.textContent = price.toFixed(2)
+    p.textContent = count.toLocaleString()
 
-    await new Promise(resolve => setTimeout(resolve, Math.random() * delay))
+    localStorage.tapewalk_price = price
+    localStorage.tapewalk_count = count
+    await new Promise(resolve => setTimeout(resolve, Math.random() * 250))
 }
 
 function coinflip() {
